@@ -20,6 +20,7 @@ import HopsUpdate from './pages/HopsUpdate';
 import GrainsUpdate from './pages/GrainsUpdate';
 import BeerCreate from './pages/BeerCreate';
 import BeerUpdate from './pages/BeerUpdate';
+import Review from './pages/Review';
 
 const Page = styled.div`
   background-color: ${props => props.theme.lightBackgroundColor};
@@ -35,7 +36,7 @@ const Container = styled.div`
   min-height: calc(100vh - 7rem);
 `
 // UPDATE THIS CONST AND START DEVELOPMENT
-export const DEVELOPMENT_IS_READY = false
+export const DEVELOPMENT_IS_READY = true
 
 class App extends Component {
   render() {
@@ -58,6 +59,7 @@ class App extends Component {
                   <Route exact path='/grains/new' component={GrainsCreate} />
                   <Route exact path='/grains/:id' component={GrainsUpdate} />
                   <Route exact path='/docs' component={Documentation} />
+                  <Route exact path='/review' component={Review} />
                   <Route component={NotFound} />
                 </Switch>
               </Container>
