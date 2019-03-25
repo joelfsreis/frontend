@@ -1,41 +1,21 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
-import { Link } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { Query } from "react-apollo"
 import gql from "graphql-tag"
 import styled from 'styled-components'
 
 import Loader from '../components/Loader'
-import Beer from '../components/Beer'
 import Button from '../components/Button'
 import { DEVELOPMENT_IS_READY } from '../App';
 import Error from '../components/Error';
+import Table from '../components/Table';
 
 const BEERS_QUERY = gql`
-  # query BEERS_QUERY {
-  #   beers {
-  #     id
-  #     brewery
-  #     name
-  #   }
-  # }
-  query MOCK_BEERS_QUERY {
-    mockBeers {
+  query BEERS_QUERY {
+    beers {
       id
     }
-  }
-`
-
-const BeerList = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  /* background-color: ${props => props.theme.backgroundColor} */
-  > div {
-    /* flex: 1 1 32%; */
-    width: 32%;
-    margin-top: 1rem;
   }
 `
 
@@ -46,6 +26,24 @@ const Static = styled.div`
 `
 
 class Beers extends Component {
+  /**
+   * args
+   *   headers: [{ key: string, name: string }, ...]
+   *   rows: [{ id: string, brewery: string, name: string, abv: number, description: string }, ...]
+   * 
+   * headers | array of objects containing the object key for the value as a string and the name to be displayed in the table header
+   * rows | array of objects containing the keys with the needed values for the table body PLUS an id
+   */
+  renderContent = (headers, rows) => {
+    if (!headers || !Array.isArray(headers)) {
+      return <Error error={{ message: 'Headers is not a array'}}><code>typeof of headers is: {typeof headers}</code></Error>
+    } else if (!rows || !Array.isArray(rows)) {
+      return <Error error={{ message: 'Rows is not a array'}}><code>typeof of rows is: {typeof rows}</code></Error>
+    }
+
+    return <Table headers={headers} rows={rows} onRowClick={this.rowTableOnClick} />
+  }
+
   renderStaticView = () => {
     return (
       <Static>
@@ -69,35 +67,59 @@ class Beers extends Component {
     )
   }
 
+  onClick = (e) => {
+    e.preventDefault()
+    this.props.history.push('/beers/new')
+  }
+
+  rowTableOnClick = (id) => {
+    this.props.history.push(`/beers/${id}`)
+  }
+
   renderQuery = () => {
     return (
       <Query query={BEERS_QUERY}>
         {({ loading, error, data }) => {
-          console.log(error)
-          if (loading) return <Loader></Loader>
+          if (loading) return <Loader />
           if (error) return <Error error={error}></Error>
-          // if (error) return <code>{JSON.stringify(error, null, 2)}</code>
-          // <BeerList><Beer></Beer><Beer></Beer><Beer></Beer><Beer></Beer></BeerList>
-          // TODO: UPDATE THIS VARIABLE WHEN YOU UPDATE YOUR QUERY
-          const beers = data.mockBeers
-          if (beers.length === 0) return <BeerList><Beer></Beer><Beer></Beer><Beer></Beer><Beer></Beer></BeerList>
-          return beers.map(({ id, brewery, name }) => (
-            <div key={id}>
-              <p>{brewery}: {name}</p>
-            </div>
-          ));
+
+          const header = [
+            { key: 'name', name: 'Name' },
+            { key: 'brewery', name: 'Brewery' },
+            { key: 'abv', name: 'ABV (%)' },
+            { key: 'type', name: 'Beer Type' },
+          ]
+          // TODO: UPDATE THIS VARIABLE WHEN YOU UPDATE YOUR BACKEND RESOLVER!
+          // MOCK DATA!!!
+          const beers = [{
+            id: 'asdnasjdna',
+            brewery: 'Dois Corvos',
+            name: 'Fuzeta',
+            abv: 9.1,
+            type: 'Double IPA'
+          }]
+          return this.renderContent(header, beers);
         }}
       </Query>
     )
   }
+
   render() {
     return (
       <section>
         <h2>Beers</h2>
-        { DEVELOPMENT_IS_READY ? this.renderQuery() : this.renderStaticView() }
+        {
+          DEVELOPMENT_IS_READY
+          ?
+            <Fragment>
+              {this.renderQuery()}
+              <Button onClick={this.onClick}>NEW BEER</Button>
+            </Fragment>
+          :
+            this.renderStaticView() }
       </section>
     )
   }
 }
 
-export default Beers;
+export default withRouter(Beers);

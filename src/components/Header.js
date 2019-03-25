@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom'
 
 const Head = styled.div`
   position: fixed;
@@ -13,21 +13,21 @@ const Head = styled.div`
   overflow: hidden;
   background-color: ${props => props.theme.backgroundColor};
   color: ${props => props.theme.lightgrey};
-  height: 14rem;
+  height: 7rem;
 
   > div {
     display: flex;
     flex: 1;
     justify-content: space-between;
-    margin: auto 2rem;
+    margin: auto 1rem;
 
     h1 {
       display: flex;
       align-items: center;
 
       > img {
-        height: 8rem;
-        margin-right: 1rem;
+        height: 4rem;
+        margin-right: 0.5rem;
       }
     }
 
@@ -40,13 +40,13 @@ const Head = styled.div`
       a {
         text-transform: uppercase;
         color: ${props => props.theme.lightgrey};
-        font-size: 3rem;
+        font-size: 1.5rem;
         font-weight: 700;
         cursor: pointer;
         border: 1px solid ${props => props.theme.lightgrey};
         border-radius: 4px;
-        padding: 2rem 3rem;
-        margin: 0 1rem;
+        padding: 1rem 1.5rem;
+        margin: 0 0.5rem;
         opacity: 0.7;
 
         &.active {
@@ -68,17 +68,24 @@ const Head = styled.div`
   }
 `
 
-const links = [
-  { name: 'Home', path: '/' },
-  { name: 'Beers', path: '/beers' },
-  { name: 'Hops', path: '/hops' },
-  { name: 'Grains', path: '/grains' },
-  { name: 'Docs', path: '/docs' },
-]
-
 class Header extends Component {
-  render() {
+  links = [
+    { name: 'Home', path: '/' },
+    { name: 'Beers', path: '/beers' },
+    { name: 'Hops', path: '/hops', disabled: this.props.disableRoutes },
+    { name: 'Grains', path: '/grains', disabled: this.props.disableRoutes },
+    { name: 'Docs', path: '/docs' },
+  ]
+
+  getClassName = (link) => {
     const { pathname } = this.props.location;
+    if (link.path === '/') {
+      return pathname === '/' ? 'active' : ''
+    }
+    return !!link.disabled ? 'link-disabled' : pathname.indexOf(link.path) > -1 ? 'active' : ''
+  }
+
+  render() {
     return (
       <Head>
         <div>
@@ -87,10 +94,11 @@ class Header extends Component {
           </h1>
           <nav>
             {
-              links.map(link => (
+              this.links.map(link => (
                 <Link
                   to={link.path}
-                  className={pathname === link.path ? 'active' : ''}
+                  className={this.getClassName(link)}
+                  disabled={link.disabled}
                   key={link.name}
                 >
                   {link.name}

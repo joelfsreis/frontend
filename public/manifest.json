@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "GraphQL workshop",
+  "name": "GraphQL workshop for FCT Nova Hackathon 2019",
   "icons": [
     {
       "src": "favicon.ico",

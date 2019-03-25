@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
-const QUERY = `query EXAMPLE_QUERY { \n    id\n    name\n    description\n}`
+const QUERY = `query GET_POSTS { \n    posts {\n        id\n        name\n        description\n    }\n}`
 
-const MUTATION = ``
+const MUTATION = `mutation CREATE_POST($input: InputCreatePost!) { \n    createPost(data: $input) {\n        id\n        name\n        description\n    }\n}`
 
 const Example = styled.code`
   display: inline-flex;
