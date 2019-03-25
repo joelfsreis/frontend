@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { TextField, MenuItem } from '@material-ui/core';
 import Button from '../components/Button'
 import { request } from 'graphql-request'
-import gql from 'graphql-tag'
+import Error from '../components/Error';
 
 const Section = styled.section`
   form {
@@ -22,45 +22,37 @@ class Review extends Component {
   constructor() {
     super()
 
-    this.state = {}
+    this.state = {
+      review: {},
+      error: false,
+      sucess: false,
+    }
   }
   onChange = (e) => {
     e.preventDefault()
-    this.setState({ [e.target.id || e.target.name]: e.target.value })
+    this.setState({ review: { ...this.state.review, [e.target.id || e.target.name]: e.target.value } })
   }
 
   onSubmit = async (e) => {
     e.preventDefault()
-    // const mutation = gql`
-    //   mutation CREATE_REVIEW_MUTATION($data: CreateReviewInput!) {
-    //     createReview(data: $data) {
-    //       id
-    //     }
-    //   }
-    // `
-    // const body = {
-    //   operationName: 'CREATE_REVIEW_MUTATION',
-    //   variables: { data: { ...this.state } },
-    //   query: `mutation CREATE_REVIEW_MUTATION($data: CreateReviewInput!) {
-    //     createReview(data: $data) {
-    //       id
-    //     }
-    //   }
-    // `
-    // }
-    // const result = await fetch(PRISMA_URL, {
-    //   method: 'POST',
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   }
-    // }, JSON.stringify(body))
-    // const result = await request(PRISMA_URL, mutation, {data: {...this.state}})
-    // debugger
+    this.setState({ error: false, sucess: false })
+    const mutation = `mutation REVIEW_MUTATION($data: ReviewCreateInput!){
+      createReview(data: $data) {
+        id
+      }
+    }
+    `
+    try {
+      await request(PRISMA_URL, mutation, { data:  { ...this.state.review } })
+      this.setState({ sucess: true })
+    } catch (e) {
+      this.setState({ error: true })
+    }
   }
 
   render() {
-    const { avaliation, difficulty, useGraphQL, internship } = this.state
-    console.log(this.state)
+    const { avaliation, difficulty, useGraphQL, internship } = this.state.review
+    console.log(this.state.review)
     return (
       <Section>
         <h2>Workshop Review (Optional, but we appreciate if you submit it!)</h2>
@@ -134,7 +126,7 @@ class Review extends Component {
             { REVIEW_BOOL.map(opt => <MenuItem key={opt} value={opt}>{opt}</MenuItem>) }
           </TextField>
           <TextField
-            id="sugestions"
+            id="suggestions"
             label="Is there any way we can improve your workshop experience?"
             margin="normal"
             variant="outlined"
@@ -142,7 +134,9 @@ class Review extends Component {
             onChange={this.onChange}
           />
         </form>
-        <Button onClick={this.onSubmit}>SEND</Button>
+        { !!this.state.error && <Error /> }
+        { !!this.state.sucess && <h2>Thanks for your feedback!</h2> }
+        <Button disabled={this.state.sucess} onClick={this.onSubmit}>SEND</Button>
       </Section>
     )
   }
