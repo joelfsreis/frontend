@@ -21,17 +21,17 @@ const ErrorContainer = styled.div`
 
 export default class Error extends Component {
   networkErrorRender = ({ networkError }) => {
-    const errorMessage = networkError.result.errors.reduce((acc, error) => {
+    const errorMessage = (networkError.result || { errors: [] }).errors.reduce((acc, error) => {
       return !!acc ? `${acc}\n\n${error.message}` : `${error.message}`
     }, '')
-    return <GraphQLExample code={errorMessage} />
+    return !!errorMessage ? <GraphQLExample code={errorMessage} /> : null
   }
 
   graphqlErrorRender = ({ graphQLErrors }) => {
     return (
       <Fragment>
         {
-          graphQLErrors.map(error => {
+          (graphQLErrors || []).map(error => {
             const msg = `RequestID: ${error.requestId} with path: ${error.path}\n\n${error.message}`
             return <GraphQLExample key={error.requestId} code={msg} />
           })
