@@ -20,6 +20,7 @@ import HopsUpdate from './pages/HopsUpdate';
 import GrainsUpdate from './pages/GrainsUpdate';
 import BeerCreate from './pages/BeerCreate';
 import BeerUpdate from './pages/BeerUpdate';
+import Footer from './components/Footer';
 
 const Page = styled.div`
   background-color: ${props => props.theme.lightBackgroundColor};
@@ -32,7 +33,7 @@ const Container = styled.div`
   border-radius: 0.25rem;
   margin: 7rem auto 0;
   padding: 1rem;
-  min-height: calc(100vh - 7rem);
+  min-height: calc(100vh - 14rem);
 `
 // UPDATE THIS CONST AND START DEVELOPMENT
 export const DEVELOPMENT_IS_READY = false
@@ -61,7 +62,9 @@ class App extends Component {
                   <Route component={NotFound} />
                 </Switch>
               </Container>
+              <Footer />
             </Page>
+
           </ThemeProvider>
         </Router>
       </ApolloProvider>
