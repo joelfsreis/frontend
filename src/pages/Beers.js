@@ -11,6 +11,8 @@ import { DEVELOPMENT_IS_READY } from '../App';
 import Error from '../components/Error';
 import Table from '../components/Table';
 
+
+// TODO: UPDATE QUERY TO FETCH ALL REQUIRED FIELDS...
 const BEERS_QUERY = gql`
   query BEERS_QUERY {
     beers {
@@ -24,6 +26,13 @@ const Static = styled.div`
     display: inline-flex;
   }
 `
+
+const HEADERS = [
+  { key: 'name', name: 'Name' },
+  { key: 'brewery', name: 'Brewery' },
+  { key: 'abv', name: 'ABV (%)' },
+  { key: 'type', name: 'Beer Type' },
+]
 
 class Beers extends Component {
   /**
@@ -83,12 +92,6 @@ class Beers extends Component {
           if (loading) return <Loader />
           if (error) return <Error error={error}></Error>
 
-          const header = [
-            { key: 'name', name: 'Name' },
-            { key: 'brewery', name: 'Brewery' },
-            { key: 'abv', name: 'ABV (%)' },
-            { key: 'type', name: 'Beer Type' },
-          ]
           // TODO: UPDATE THIS VARIABLE WHEN YOU UPDATE YOUR BACKEND RESOLVER!
           // MOCK DATA!!!
           const beers = [{
@@ -98,7 +101,7 @@ class Beers extends Component {
             abv: 9.1,
             type: 'Double IPA'
           }]
-          return this.renderContent(header, beers);
+          return this.renderContent(HEADERS, beers);
         }}
       </Query>
     )
