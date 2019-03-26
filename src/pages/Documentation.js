@@ -53,8 +53,8 @@ export default class Documentation extends Component {
 
   yogaServerDocs = () => {
     const api = `type Post { \n    id: ID!\n    name: String!\n    description: String!\n}\n\ninput InputCreatePost {\n    name: String!\n    description: String!\n}\n\ntype Query {\n    posts: [Post]!\n}\n\ntype Mutations {\n    createPost(data: InputCreatePost!): Post!\n}`
-    const query = `// Query.js \npost(root, args, ctx) {\n    // redirect to Prisma query...\n    return ctx.prisma.post();\n}`
-    const mutation = `// Mutations.js \ncreatePost(root, args, ctx) {\n    // redirect to Prisma mutation using \`args\` as data sent from frontend\n    return ctx.prisma.createPost({ ...args });\n}`
+    const query = `// Query.js \npost(_, args, context) {\n    // redirect to Prisma query...\n    return context.prisma.post();\n}`
+    const mutation = `// Mutations.js \ncreatePost(_, args, context) {\n    // redirect to Prisma mutation using \`args\` as data sent from frontend\n    return context.prisma.createPost({ ...args.data });\n}`
     return (
       <Fragment>
         <h4>Defining GraphQL API</h4>
@@ -142,7 +142,7 @@ export default class Documentation extends Component {
       <Fragment>
         <h4>Playground</h4>
         <p>You can access your Prisma GraphQL Playground by just pasting the endpoint URI of your Prisma Endpoint in your browser</p>
-        <p>If you have already setup your Yoga backend server, just go to your `backend` folder and check your <code>variables.env/PRISMA_ENDPOINT</code> variable</p>
+        <p>If you have already setup your Yoga backend server, just go to your `backend` folder and check your <code>prisma.yml/endpoint</code> variable</p>
         <h4>Console</h4>
         <p>Your dashboard for your Prisma services. You can manage all of your instances <a href="https://app.prisma.io" rel="noopener noreferrer" target="_blank">here</a></p>
         <p>--</p>

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const QUERY = `query GET_POSTS { \n    posts {\n        id\n        name\n        description\n    }\n}`
 
-const MUTATION = `mutation CREATE_POST($input: InputCreatePost!) { \n    createPost(data: $input) {\n        id\n        name\n        description\n    }\n}`
+const MUTATION = `mutation CREATE_POST($data: InputCreatePost!) { \n    createPost(data: $data) {\n        id\n        name\n        description\n    }\n}`
 
 const Example = styled.code`
   display: inline-flex;

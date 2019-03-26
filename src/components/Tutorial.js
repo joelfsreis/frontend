@@ -89,10 +89,8 @@ export default class Tutorial extends Component {
         <h3>Let's create a Prisma database and run the backend server</h3>
         <strong>You need to create a free account on <a href="https://app.prisma.io/signup" target="_blank" rel="noopener noreferrer">Prisma website</a></strong>
         <p>- After signup click the <b>GET STARTED</b> button and you will find some information about Prisma</p>
-        <p>- Click on Prisma logo, top left, and then go to Settings and save the <b>slug</b> variable value, you will need this later!</p>
         <p>- Make sure you have the npm package `prisma` installed globally and run <code>prisma deploy</code> in the backend directory root</p>
         <p>- Choose the demo server option, the rest is up to you</p>
-        <p>- Run <code>npm run deploy</code>, this command is basically will run <code>prisma deploy</code> but using your <code>variables.env</code> file</p>
         <p>- You will authenticate to your Prisma account by just clicking a button in your browser!</p>
         <p>- If everything went well, you should have deployed a Prima database. Also you will have a new folder <code>src/generated</code> containing all the Prisma related code. Never change this files!</p>
         <p>- Now, run <code>npm install</code> and then <code>npm start</code> and you should have a Yoga Server running connected to your Prisma database</p>
@@ -112,7 +110,7 @@ export default class Tutorial extends Component {
             <strong>{stateMessage}</strong>
             <p>- See if the server is running or check for errors in the terminal</p>
             <p>- Make sure if your Prisma database was deployed succefully, you should have a <code>src/generated</code> folder.
-              You can try to deploy the database and check for errors running <code>npm run deploy</code></p>
+              You can try to deploy the database and check for errors running <code>prisma deploy</code></p>
             <p>- Run <code>npm start</code></p>
             <p>- Check again!</p>
           </Fragment>)
