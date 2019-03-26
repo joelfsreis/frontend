@@ -32,7 +32,7 @@ const Container = styled.div`
   background-color: ${props => props.theme.lightBackgroundColor};
   box-shadow: ${props => props.theme.bs};
   border-radius: 0.25rem;
-  margin: 7rem auto 0;
+  margin: 8rem auto 0;
   padding: 1rem;
   min-height: calc(100vh - 14rem);
 `

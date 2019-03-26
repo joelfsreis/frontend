@@ -4,20 +4,20 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import { Divider } from '@material-ui/core';
 
 const Social = styled.footer`
-  display: flex
-  flex-direction: column
-  margin: 2rem 1rem
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 1rem;
 
   > div {
-    margin-top: 1rem
+    margin-top: 1rem;
   }
 `
 
 const SocialIcon = styled.a`
-  border: 1px solid black
-  padding: 5px
-  display: inline-flex
-  margin-right: 5px
+  border: 1px solid black;
+  padding: 5px;
+  display: inline-flex;
+  margin-right: 5px;
 `
 
 
@@ -25,7 +25,6 @@ export default class Footer extends Component {
   render() {
     return (
       <Social>
-        <Divider />
         <div>
           <span>
             Find us at&nbsp;
