@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import SvgIcon from '@material-ui/core/SvgIcon';
-import { Divider } from '@material-ui/core';
 
 const Social = styled.footer`
   display: flex;
