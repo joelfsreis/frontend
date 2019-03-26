@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import SvgIcon from '@material-ui/core/SvgIcon';
+import { Divider } from '@material-ui/core';
 
 const Social = styled.footer`
   display: flex
   flex-direction: column
   margin: 2rem 1rem
+
+  > div {
+    margin-top: 1rem
+  }
 `
 
 const SocialIcon = styled.a`
@@ -15,10 +20,12 @@ const SocialIcon = styled.a`
   margin-right: 5px
 `
 
+
 export default class Footer extends Component {
   render() {
     return (
       <Social>
+        <Divider />
         <div>
           <span>
             Find us at&nbsp;
