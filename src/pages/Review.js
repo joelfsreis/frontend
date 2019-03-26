@@ -25,7 +25,7 @@ class Review extends Component {
     this.state = {
       review: {},
       error: false,
-      sucess: false,
+      success: false,
     }
   }
   onChange = (e) => {
@@ -52,7 +52,6 @@ class Review extends Component {
 
   render() {
     const { avaliation, difficulty, useGraphQL, internship } = this.state.review
-    console.log(this.state.review)
     return (
       <Section>
         <h2>Workshop Review (Optional, but we appreciate if you submit it!)</h2>
@@ -135,8 +134,8 @@ class Review extends Component {
           />
         </form>
         { !!this.state.error && <Error /> }
-        { !!this.state.sucess && <h2>Thanks for your feedback!</h2> }
-        <Button disabled={this.state.sucess} onClick={this.onSubmit}>SEND</Button>
+        { !!this.state.success && <h2>Thanks for your feedback!</h2> }
+        <Button disabled={this.state.success} onClick={this.onSubmit}>SEND</Button>
       </Section>
     )
   }
