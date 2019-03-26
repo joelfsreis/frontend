@@ -53,7 +53,7 @@ export default class Documentation extends Component {
 
   yogaServerDocs = () => {
     const api = `type Post { \n    id: ID!\n    name: String!\n    description: String!\n}\n\ninput InputCreatePost {\n    name: String!\n    description: String!\n}\n\ntype Query {\n    posts: [Post]!\n}\n\ntype Mutations {\n    createPost(data: InputCreatePost!): Post!\n}`
-    const query = `// Query.js \npost(root, args, ctx) {\n    // redirect to Prisma query...\n    return ctx.prima.post();\n}`
+    const query = `// Query.js \npost(root, args, ctx) {\n    // redirect to Prisma query...\n    return ctx.prisma.post();\n}`
     const mutation = `// Mutations.js \ncreatePost(root, args, ctx) {\n    // redirect to Prisma mutation using \`args\` as data sent from frontend\n    return ctx.prisma.createPost({ ...args });\n}`
     return (
       <Fragment>

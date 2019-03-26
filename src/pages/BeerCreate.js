@@ -24,8 +24,8 @@ const Label = styled(InputLabel)`
 `
 
 // MOCK DATA, REPLACE WITH DATA FROM YOGA SERVER!!!
-const hopsList = [{id: 'asdbas', name: 'Citra'} , { id: 'aksdansj', name: 'Simcoe' }]
-const grainsList = [{ id: 123, name: 'Pils' }, { id: 12312, name: 'Pale Ale'}]
+const HOPS_LIST = [{id: 'asdbas', name: 'Citra'} , { id: 'aksdansj', name: 'Simcoe' }]
+const GRAINS_LIST = [{ id: 123, name: 'Pils' }, { id: 12312, name: 'Pale Ale'}]
 
 export default class BeerCreate extends Component {
   constructor() {
@@ -43,6 +43,11 @@ export default class BeerCreate extends Component {
       ebc: undefined,
     }
 
+    // TODO: REMOVE THIS
+    this.updateDictionaries(HOPS_LIST, GRAINS_LIST)
+  }
+
+  updateDictionaries = (hopsList, grainsList) => {
     this.hopsDict = hopsList.reduce((acc, item) => {
       acc[item.id] = item.name
       return acc
@@ -114,7 +119,7 @@ export default class BeerCreate extends Component {
     )
   }
 
-  renderContent = () => {
+  renderContent = (hopsList = HOPS_LIST, grainsList = GRAINS_LIST) => {
     const { type, brewery, name, description, hops, grains, abv, ibu, ebc } = this.state;
     return (
       <Section>
@@ -215,7 +220,6 @@ export default class BeerCreate extends Component {
   }
 
   render() {
-    
     return (
       <Fragment>
         <h2>Create Beer</h2>

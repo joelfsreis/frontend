@@ -92,12 +92,6 @@ export default class Tutorial extends Component {
         <p>- Click on Prisma logo, top left, and then go to Settings and save the <b>slug</b> variable value, you will need this later!</p>
         <p>- Make sure you have the npm package `prisma` installed globally and run <code>prisma deploy</code> in the backend directory root</p>
         <p>- Choose the demo server option, the rest is up to you</p>
-        <p>- The deploy will fail because Prisma is not generating properly the database url, but we will fix it right away!</p>
-        <p>- In the root directory create your <code>variables.env</code> file using the example file and update your <code>PRISMA_ENDPOINT</code> 
-          with the endpoint url from <code>prisma.yml</code> file</p>
-        <p>- To fix the endpoint url we will add our <b>slug</b> that we saved before. The endpoint has this structure:</p>
-        <p>- <code>https://[demo-server-region]/[<b>insert-your-slug-here!</b>]/[service-name]/[stage-name]</code>, now update the variable <code>PRISMA_ENDPOINT</code></p>
-        <p>- Finally, update the <code>prisma.yml</code> file, deleting the created endpoint variable and uncomment the two first lines from the file</p>
         <p>- Run <code>npm run deploy</code>, this command is basically will run <code>prisma deploy</code> but using your <code>variables.env</code> file</p>
         <p>- You will authenticate to your Prisma account by just clicking a button in your browser!</p>
         <p>- If everything went well, you should have deployed a Prima database. Also you will have a new folder <code>src/generated</code> containing all the Prisma related code. Never change this files!</p>
