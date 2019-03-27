@@ -40,7 +40,7 @@ class GrainsUpdate extends Component {
 
   formIsValid = () => {
     const { name, ebc, description } = this.state
-    return  !!name && !!ebc && !!description
+    return  !!name || !!ebc || !!description
   }
 
   renderContent = (hop) => {

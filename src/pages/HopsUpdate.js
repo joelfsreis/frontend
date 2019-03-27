@@ -40,7 +40,7 @@ class HopsUpdate extends Component {
 
   formIsValid = () => {
     const { name, alphaAcids, description } = this.state
-    return  !!name && !!alphaAcids && !!description
+    return  !!name || !!alphaAcids || !!description
   }
 
   renderContent = (hop) => {

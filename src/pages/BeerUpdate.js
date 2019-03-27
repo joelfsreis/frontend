@@ -84,7 +84,7 @@ class BeerUpdate extends Component {
       hops,
       grains
     } = this.state
-    return  !!type && !!brewery && !!name && !!description && !!abv && !!hops && hops.length > 0 && !!grains && grains.length > 0
+    return  !!type || !!brewery || !!name || !!description || !!abv || (!!hops && hops.length > 0) || (!!grains && grains.length > 0)
   }
 
   renderSelect = (name, value, opt) => {
