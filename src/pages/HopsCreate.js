@@ -18,7 +18,7 @@ const Section = styled.section`
 `
 
 const CREATE_HOP = gql`
-  mutation CREATE_HOP_MUTATION ($data: HopsCreateInput!){
+  mutation CREATE_HOP_MUTATION ($data: CreateHopsInput!){
     createHops(data: $data) {
       id
       name
@@ -108,7 +108,6 @@ class HopsCreate extends Component {
         refetchQueries={[{ query: HOPS_QUERY }]}
         awaitRefetchQueries
         onCompleted={({ hop }) => {
-          console.log(hop)
           this.props.history.push('/hops')
         }}
       >
