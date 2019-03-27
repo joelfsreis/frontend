@@ -43,7 +43,7 @@ class GrainsUpdate extends Component {
     return  !!name || !!ebc || !!description
   }
 
-  renderContent = (hop) => {
+  renderContent = (hop, onClick) => {
     const { id, name, ebc, description } = hop;
     return (
       <Section>
@@ -92,7 +92,7 @@ class GrainsUpdate extends Component {
             onBlur={this.onBlur}
           />
         </form>
-        <Button disabled={!this.formIsValid()}>UPDATE</Button>
+        <Button onClick={onClick} disabled={!this.formIsValid()}>UPDATE</Button>
       </Section>
     )
   }

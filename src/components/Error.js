@@ -33,7 +33,7 @@ export default class Error extends Component {
         {
           (graphQLErrors || []).map(error => {
             const msg = `RequestID: ${error.requestId} with path: ${error.path}\n\n${error.message}`
-            return <GraphQLExample key={error.requestId} code={msg} />
+            return <GraphQLExample key={error.requestId || msg} code={msg} />
           })
         }
       </Fragment>

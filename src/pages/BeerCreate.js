@@ -119,7 +119,7 @@ export default class BeerCreate extends Component {
     )
   }
 
-  renderContent = (hopsList = HOPS_LIST, grainsList = GRAINS_LIST) => {
+  renderContent = (hopsList = HOPS_LIST, grainsList = GRAINS_LIST, onClick) => {
     const { type, brewery, name, description, hops, grains, abv, ibu, ebc } = this.state;
     return (
       <Section>
@@ -203,7 +203,7 @@ export default class BeerCreate extends Component {
           { this.renderSelect('hops', hops, hopsList) }
           { this.renderSelect('grains', grains, grainsList) }
         </form>
-        <Button disabled={!this.formIsValid()}>CREATE</Button>
+        <Button onClick={onClick} disabled={!this.formIsValid()}>CREATE</Button>
       </Section>
     )
   }

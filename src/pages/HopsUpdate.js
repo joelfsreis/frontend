@@ -43,7 +43,7 @@ class HopsUpdate extends Component {
     return  !!name || !!alphaAcids || !!description
   }
 
-  renderContent = (hop) => {
+  renderContent = (hop, onClick) => {
     const { id, name, alphaAcids, description } = hop;
     return (
       <Section>
@@ -92,13 +92,18 @@ class HopsUpdate extends Component {
             onBlur={this.onBlur}
           />
         </form>
-        <Button disabled={!this.formIsValid()}>UPDATE</Button>
+        <Button onClick={onClick} disabled={!this.formIsValid()}>UPDATE</Button>
       </Section>
     )
   }
 
+  // TODO
+  renderQuery = () => {}
+
+  // TODO
+  renderMutation = () => {}
+
   render() {
-    
     return (
       <Fragment>
         <h2>Update Hop</h2>

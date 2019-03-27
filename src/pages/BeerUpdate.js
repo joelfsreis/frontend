@@ -116,7 +116,7 @@ class BeerUpdate extends Component {
     )
   }
 
-  renderContent = (hopsList, grainsList) => {
+  renderContent = (hopsList, grainsList, onClick) => {
     const { id, type, brewery, name, description, hops, grains, abv, ibu, ebc } = this.state;
     return (
       <Section>
@@ -208,7 +208,7 @@ class BeerUpdate extends Component {
           { this.renderSelect('hops', hops, hopsList) }
           { this.renderSelect('grains', grains, grainsList) }
         </form>
-        <Button disabled={!this.formIsValid()}>Update</Button>
+        <Button onClick={onClick} disabled={!this.formIsValid()}>Update</Button>
       </Section>
     )
   }

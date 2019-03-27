@@ -37,7 +37,7 @@ export default class GrainsCreate extends Component {
     return  !!name && !!ebc && !!description
   }
 
-  renderContent = () => {
+  renderContent = (onClick) => {
     const { name, ebc, description } = this.state;
     return (
       <Section>
@@ -78,7 +78,7 @@ export default class GrainsCreate extends Component {
             onBlur={this.onBlur}
           />
         </form>
-        <Button disabled={!this.formIsValid()}>CREATE</Button>
+        <Button onClick={onClick} disabled={!this.formIsValid()}>CREATE</Button>
       </Section>
     )
   }
