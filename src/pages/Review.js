@@ -44,7 +44,7 @@ class Review extends Component {
     `
     try {
       await request(PRISMA_URL, mutation, { data:  { ...this.state.review } })
-      this.setState({ sucess: true })
+      this.setState({ success: true })
     } catch (e) {
       this.setState({ error: true })
     }
