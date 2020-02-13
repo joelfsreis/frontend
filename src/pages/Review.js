@@ -114,17 +114,6 @@ class Review extends Component {
             onChange={this.onChange}
           />
           <TextField
-            select
-            name="internship"
-            label="Have you heard about Imaginary Cloud's internships?"
-            margin="normal"
-            variant="outlined"
-            value={internship || ''}
-            onChange={this.onChange}
-          >
-            { REVIEW_BOOL.map(opt => <MenuItem key={opt} value={opt}>{opt}</MenuItem>) }
-          </TextField>
-          <TextField
             id="suggestions"
             label="Is there any way we can improve your workshop experience?"
             margin="normal"
