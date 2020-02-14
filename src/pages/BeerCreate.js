@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { TextField } from '@material-ui/core'
 import styled from 'styled-components'
 import Select from '@material-ui/core/Select';
@@ -6,9 +6,14 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import InputLabel from '@material-ui/core/InputLabel';
+import gql from "graphql-tag"
 
 import Button from '../components/Button'
-import { Mutation } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
+import Loader from '../components/Loader';
+import Error from '../components/Error';
+import { BEERS_QUERY } from './Beers'
+import { withRouter } from 'react-router-dom';
 
 const Section = styled.section`
   form {
@@ -27,57 +32,64 @@ const Label = styled(InputLabel)`
 const HOPS_LIST = [{id: 'asdbas', name: 'Citra'} , { id: 'aksdansj', name: 'Simcoe' }]
 const GRAINS_LIST = [{ id: 123, name: 'Pils' }, { id: 12312, name: 'Pale Ale'}]
 
-export default class BeerCreate extends Component {
-  constructor() {
-    super()
+function BeerCreate({ history }) {
+  const [state, setState] = useState({
+    type: undefined,
+    brewery: undefined,
+    name: undefined,
+    description: undefined,
+    hops: [],
+    grains: [],
+    abv: undefined,
+    ibu: undefined,
+    ebc: undefined,
+  })
+  let hopsDict = {}
+  let grainsDict = {}
 
-    this.state = {
-      type: undefined,
-      brewery: undefined,
-      name: undefined,
-      description: undefined,
-      hops: [],
-      grains: [],
-      abv: undefined,
-      ibu: undefined,
-      ebc: undefined,
-    }
-
-    // TODO: REMOVE THIS
-    this.updateDictionaries(HOPS_LIST, GRAINS_LIST)
-  }
-
-  updateDictionaries = (hopsList, grainsList) => {
-    this.hopsDict = hopsList.reduce((acc, item) => {
+  const updateDictionaries = (hopsList, grainsList) => {
+    hopsDict = hopsList.reduce((acc, item) => {
       acc[item.id] = item.name
       return acc
     }, {})
 
-    this.grainsDict = grainsList.reduce((acc, item) => {
+    grainsDict = grainsList.reduce((acc, item) => {
       acc[item.id] = item.name
       return acc
     }, {})
   }
 
-  onChange = (e) => {
+   // TODO: REMOVE THIS
+  updateDictionaries(HOPS_LIST, GRAINS_LIST)
+
+  const onChange = (e) => {
     e.preventDefault()
     if (e.target.name && !e.target.id) {
-      this.setState({ [e.target.name]: e.target.value })
+      setState({
+        ...state,
+        [e.target.name]: e.target.value
+      })
     } else {
-      this.setState({ [e.target.id]: e.target.type === 'number' ? Number(e.target.value) : e.target.value })
+      setState({
+        ...state,
+        [e.target.id]: e.target.type === 'number' ? Number(e.target.value) : e.target.value
+      })
     }
   }
 
-  onBlur = (e) => {
+  const onBlur = (e) => {
     e.preventDefault()
-    if (this.state[e.target.id] === undefined) {
-      this.setState({ [e.target.id]: '' })
+    if (state[e.target.id] === undefined) {
+      setState({
+        ...state,
+        [e.target.id]: ''
+      })
     }
   }
 
-  hasError = (value) => value !== undefined && !value
+  const hasError = (value) => value !== undefined && !value
 
-  formIsValid = () => {
+  const formIsValid = () => {
     const {
       type,
       brewery,
@@ -86,11 +98,11 @@ export default class BeerCreate extends Component {
       abv,
       hops,
       grains
-    } = this.state
+    } = state
     return  !!type && !!brewery && !!name && !!description && !!abv && !!hops && hops.length > 0 && !!grains && grains.length > 0
   }
 
-  renderSelect = (name, value, opt) => {
+  const renderSelect = (name, value, opt) => {
     const upperCaseName = name.slice(0, 1).toUpperCase() + name.slice(1, name.length)
     return (
       <Fragment>
@@ -100,11 +112,11 @@ export default class BeerCreate extends Component {
           multiple
           variant="outlined"
           value={value}
-          onChange={this.onChange}
+          onChange={onChange}
           input={<OutlinedInput labelWidth={0} type="select" name={name} />}
           renderValue={selected => (
             <div>
-              {selected.map(value => <Chip key={value} label={this[`${name}Dict`][value]} color="secondary" />)}
+              {selected.map(value => <Chip key={value} label={name==="hops" ? hopsDict[value]: grainsDict[value]} color="secondary" />)}
             </div>
           )}
         >
@@ -119,8 +131,8 @@ export default class BeerCreate extends Component {
     )
   }
 
-  renderContent = (hopsList = HOPS_LIST, grainsList = GRAINS_LIST, onClick) => {
-    const { type, brewery, name, description, hops, grains, abv, ibu, ebc } = this.state;
+  const renderContent = (hopsList = HOPS_LIST, grainsList = GRAINS_LIST, onClick) => {
+    const { type, brewery, name, description, hops, grains, abv, ibu, ebc } = state;
     return (
       <Section>
         <form>
@@ -131,9 +143,9 @@ export default class BeerCreate extends Component {
             margin="normal"
             variant="outlined"
             defaultValue={type}
-            onChange={this.onChange}
-            error={this.hasError(type)}
-            onBlur={this.onBlur}
+            onChange={onChange}
+            error={hasError(type)}
+            onBlur={onBlur}
           />
           <TextField
             required
@@ -142,9 +154,9 @@ export default class BeerCreate extends Component {
             margin="normal"
             variant="outlined"
             defaultValue={brewery}
-            onChange={this.onChange}
-            error={this.hasError(brewery)}
-            onBlur={this.onBlur}
+            onChange={onChange}
+            error={hasError(brewery)}
+            onBlur={onBlur}
           />
           <TextField
             required
@@ -153,20 +165,21 @@ export default class BeerCreate extends Component {
             margin="normal"
             variant="outlined"
             defaultValue={name}
-            onChange={this.onChange}
-            error={this.hasError(name)}
-            onBlur={this.onBlur}
+            onChange={onChange}
+            error={hasError(name)}
+            onBlur={onBlur}
           />
           <TextField
             required
+            type="number"
             id="abv"
             label="Alcohol by volume - ABV (%)"
             margin="normal"
             variant="outlined"
             defaultValue={abv}
-            onChange={this.onChange}
-            error={this.hasError(abv)}
-            onBlur={this.onBlur}
+            onChange={onChange}
+            error={hasError(abv)}
+            onBlur={onBlur}
           />
           <TextField
             id="ibu"
@@ -175,8 +188,8 @@ export default class BeerCreate extends Component {
             margin="normal"
             variant="outlined"
             defaultValue={ibu}
-            onChange={this.onChange}
-            onBlur={this.onBlur}
+            onChange={onChange}
+            onBlur={onBlur}
           />
           <TextField
             id="ebc"
@@ -185,8 +198,8 @@ export default class BeerCreate extends Component {
             margin="normal"
             variant="outlined"
             defaultValue={ebc}
-            onChange={this.onChange}
-            onBlur={this.onBlur}
+            onChange={onChange}
+            onBlur={onBlur}
           />
           <TextField
             required
@@ -196,35 +209,36 @@ export default class BeerCreate extends Component {
             variant="outlined"
             multiline
             defaultValue={description}
-            onChange={this.onChange}
-            error={this.hasError(description)}
-            onBlur={this.onBlur}
+            onChange={onChange}
+            error={hasError(description)}
+            onBlur={onBlur}
           />
-          { this.renderSelect('hops', hops, hopsList) }
-          { this.renderSelect('grains', grains, grainsList) }
+          { renderSelect('hops', hops, hopsList) }
+          { renderSelect('grains', grains, grainsList) }
         </form>
-        <Button onClick={onClick} disabled={!this.formIsValid()}>CREATE</Button>
+        <Button onClick={onClick} disabled={!formIsValid()}>CREATE</Button>
       </Section>
     )
   }
 
   // TODO
-  renderQuery = () => {
+  const renderQuery = () => {
   }
 
   // TODO
-  renderMutation = () => {
+  const renderMutation = () => {
     return (
       <Mutation></Mutation>
     )
   }
 
-  render() {
-    return (
-      <Fragment>
-        <h2>Create Beer</h2>
-        { this.renderContent() }
-      </Fragment>
-    )
-  }
+  return (
+    <Fragment>
+      <h2>Create Beer</h2>
+      { renderContent() }
+    </Fragment>
+  )
 }
+
+
+export default withRouter(BeerCreate)
