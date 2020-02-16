@@ -11,7 +11,7 @@ const Section = styled.section`
     flex-direction: column;
   }
 `
-const PRISMA_URL = 'https://eu1.prisma.sh/workshop-review/workshop-reviews/dev/'
+const PRISMA_URL = 'https://eu1.prisma.sh/asantos/reviews/dev'
 
 const REVIEW_AVALIATION = ['Terrible', 'Bad', 'Satisfactory', 'Good', 'Excellent']
 const REVIEW_DIFFICULTY = ['Very difficult', 'Difficult', 'Suitable', 'Easy', 'Very easy']
